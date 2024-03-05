@@ -1,0 +1,5 @@
+rootProject.name = 'microservice-spring-template'
+include 'application'
+include 'modules'
+include 'modules:entities'
+include 'modules:models'
