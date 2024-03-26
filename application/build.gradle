@@ -1,3 +1,13 @@
+plugins {
+    id "org.springframework.boot" version "3.2.1"
+}
+
 dependencies {
     implementation ('org.springframework.boot:spring-boot-starter-web')
+
+    implementation project(':modules:persistence')
+}
+
+jar {
+    enabled = false
 }
