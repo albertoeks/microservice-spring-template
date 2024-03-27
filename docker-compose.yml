@@ -1,0 +1,38 @@
+services:
+  spring-template:
+    build:
+      context: .
+    environment:
+      JAVA_OPTS: "-Dspring.datasource.url=jdbc:postgresql://postgres:5432/postgres
+      -Dspring.datasource.username=postgres
+      -Dspring.datasource.password=postgres"
+    ports:
+      - 8081:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - spring-template-dev
+
+  postgres:
+    image: postgres:16.2-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      start_period: 5s
+      interval: 5s
+      retries: 5
+    volumes:
+      - spring-template-postgres:/var/lib/postgresql/data
+    networks:
+      - spring-template-dev
+
+volumes:
+  spring-template-postgres:
+
+networks:
+  spring-template-dev:
